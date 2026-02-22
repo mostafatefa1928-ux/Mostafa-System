@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إمبراطورية مصطفى | MOSTAFA SYSTEM v12</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --red: #ff0000; --dark: #050505; --glass: rgba(15, 0, 0, 0.9); }
+        body, html { margin: 0; padding: 0; background: var(--dark); color: white; font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; }
+        #matrix { position: fixed; inset: 0; z-index: -1; opacity: 0.3; }
+        .auth-overlay { height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #300, #000); }
+        .auth-card { background: var(--glass); padding: 50px; border: 2px solid var(--red); border-radius: 20px; text-align: center; box-shadow: 0 0 50px var(--red); }
+        .btn-login { background: var(--red); color: white; border: none; padding: 15px 40px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.3rem; margin-top: 25px; transition: 0.3s; }
+        .btn-login:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--red); }
+        .dashboard { display: none; grid-template-columns: 280px 1fr; height: 100vh; }
+        .sidebar { background: #0a0a0a; border-left: 2px solid var(--red); padding: 25px; }
+        .main-view { padding: 40px; overflow-y: auto; background: rgba(0,0,0,0.8); }
+        .card { background: #111; padding: 20px; border-radius: 15px; border-bottom: 5px solid var(--red); margin-bottom: 25px; }
+        .log-container { background: #000; height: 300px; overflow-y: scroll; padding: 10px; border: 1px solid #222; font-family: monospace; font-size: 11px; color: #555; }
+        .log-entry { border-bottom: 1px solid #111; padding: 2px 0; }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div id="login-part" class="auth-overlay">
+        <div class="auth-card">
+            <h1 style="color:var(--red); font-size:3.5rem; margin:0;">MOSTAFA SYSTEM</h1>
+            <p>نظام التشفير الفيدرالي - إصدار القائد</p>
+            <button class="btn-login" onclick="startLogin()"><i class="fab fa-google"></i> تسجيل الدخول الآمن</button>
+            <p id="status-msg" style="color: yellow; margin-top: 15px;"></p>
+        </div>
+    </div>
+    <div id="dash-part" class="dashboard">
+        <aside class="sidebar">
+            <h2 style="color: var(--red);">غرفة القيادة</h2>
+            <p><i class="fas fa-user"></i> القائد: <span id="user-name">مصطفى</span></p>
+            <p><i class="fas fa-wallet"></i> الخزينة: $5,200,890</p>
+            <nav style="margin-top: 50px;"><p style="color: var(--red); cursor: pointer;" onclick="location.reload()">🔓 خروج</p></nav>
+        </aside>
+        <main class="main-view">
+            <div class="card">
+                <h3><i class="fab fa-youtube"></i> قناة خطواتي</h3>
+                <iframe width="100%" height="350" src="https://www.youtube.com/embed?listType=user_uploads&list=khatawatai" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-microchip"></i> سجلات البيانات (5000 سطر)</h3>
+                <div id="massive-logs" class="log-container"></div>
+            </div>
+        </main>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script>
+        // Matrix Animation
+        const canvas = document.getElementById('matrix'); const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const drops = Array(Math.floor(canvas.width/20)).fill(1);
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#ff0000"; ctx.font = "15px monospace";
+            drops.forEach((y, i) => {
+                const text = String.fromCharCode(Math.
